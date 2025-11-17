@@ -1,6 +1,6 @@
 cabal-version:      3.4
 name:               wspace
-version:            0.1.2.6
+version:            0.1.0.0
 author:             IOG's education team, Bernard Sibanda
 maintainer:         education@iohk.io, cto@wims.io
 license:            Apache-2.0
@@ -24,8 +24,7 @@ common common-all
         utilities,
         cardano-ledger-shelley,
         bech32 >=1.1 && <2.0,
-        time,
-        template-haskell
+        time
     default-language: Haskell2010
     ghc-options:
         -Wno-unused-packages
@@ -52,52 +51,186 @@ common common-all-tests
 
 library 
     import:            common-all
-    hs-source-dirs:    lecture,tests,lecture/boilerPlate
+    hs-source-dirs:    lecture
     exposed-modules:
       CGPlutusUtilsv1
       CGTime
+      Demo
+      Mint
       ParameterizedVesting
       Vesting
-      TemplateHaskellDemo
-      TemplateHaskellDemoSpec
-      Template
-      UniversalTestLockUnlock
-      Universal
-      AMM
+      SimpleValidator
     build-depends:
       base >=4.14 && <5,      
       time,
-      bytestring,
-      tasty >=1.4,
-      tasty-hunit >=0.10
+      bytestring
     default-language: Haskell2010
 
-executable vesting-exe
-    main-is:            Main.hs
+executable will-exe
+    main-is:            Will.hs
     hs-source-dirs:     tests
     build-depends:
-        base >=4.14 && <4.15,
+        base >=4.14 && <5,
         plutus-ledger-api,
         plutus-tx,
-        wspace,
-        utilities
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010
+
+executable onchain-exe
+    main-is:            Onchain.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010
+
+executable swap-exe
+    main-is:            Swap.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010
+
+executable nft-floor-exe
+    main-is:            NftFloor.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010 
+
+executable bonding-curve-exe
+    main-is:            BondingCurve.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010        
+
+executable dutch-auction-exe
+    main-is:            DutchAuction.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010
+
+executable english-auction-exe
+    main-is:            EnglishAuction.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010 
+
+executable mev-resistant-exe
+    main-is:            MevResistant.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
+    default-language:   Haskell2010
+
+executable option-settlement-escrow-exe
+    main-is:            OptionSettlementEscrow.hs
+    hs-source-dirs:     tests
+    build-depends:
+        base >=4.14 && <5,
+        plutus-ledger-api,
+        plutus-tx,
+        plutus-tx-plugin,
+        bytestring,
+        serialise,
+        text,
+        containers,
+        cardano-api,
+        cardano-ledger-core,
+        cardano-ledger-shelley
     default-language:   Haskell2010
 
 test-suite wspace-tests
-  import:              common-all-tests
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      tests
-  main-is:             Spec.hs
-  build-depends:
-      base >=4.14 && <5,
+    import:              common-all-tests
+    type:                exitcode-stdio-1.0
+    hs-source-dirs:      tests
+    main-is:             Spec.hs
+    build-depends:
       wspace,
-      utilities,
-      tasty >=1.4,
-      tasty-hunit >=0.10
-  other-modules:
+      utilities
+    other-modules:
       CGPlutusUtilsSpec
       CGTimeSpec
       ParameterizedVestingSpec
       VestingSpec
-      TemplateHaskellDemoSpec
-  default-language:    Haskell2010
+      DemoSpec
+    default-language:    Haskell2010
